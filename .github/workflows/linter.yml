@@ -1,18 +1,16 @@
-name: Lint the code and create pull request
-
+name: Run Linter
+ 
 on:
   push:
-    branches:
-      - '**'        # matches every branch
-      - '!master'   # excludes master
-      - '!main'     # excludes main
-
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+ 
 permissions:
   checks: write
   actions: read
   contents: read
-  pull-requests: write
-
+ 
 jobs:
   run-lint:
     if: ${{ !contains(github.actor, 'classroom') }}
@@ -27,6 +25,6 @@ jobs:
       - name: Lint Code Base
         uses: super-linter/super-linter/slim@v5
         env:
-          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
